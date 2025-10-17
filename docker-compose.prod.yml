@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: challenge_prod
+      POSTGRES_USER: prod
+      POSTGRES_PASSWORD: prod
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d challenge_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    image: challenge:prod
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      DB_NAME: challenge_prod
+      DB_USER: prod
+      DB_PASS: prod
+    ports:
+      - "8080:8080"

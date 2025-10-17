@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: challenge-tekton
+  main:
+    banner-mode: console
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,info,metrics,prometheus"
+  endpoint:
+    health:
+      probes:
+        enabled: true
+

@@ -1,0 +1,39 @@
+spring:
+  docker:
+    compose:
+      enabled: true
+      file: ./docker-compose.prod.yml
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:postgresql://db:5432/${DB_NAME:challenge_prod}
+    username: ${DB_USER:prod}
+    password: ${DB_PASS:prod}
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.show_sql: false
+      hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    root: INFO
+
+app:
+  percentage:
+    fail: false
+    mock: 20
+  cors:
+    allowed-origins: "*"
+  async:
+    thread-name-prefix: "async-"
+    core-pool-size: 2
+    MaxPoolSize: 4
+    QueueCapacity: 1000
+
+server:
+  port: 8080
